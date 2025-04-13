@@ -23,6 +23,10 @@
 hs_err_pid*
 replay_pid*
 HEAD
+HEAD
 
 *.metadata
 b1e1cd1 (Initial commit)
+
+*.metadata
+5ffd343 (Update .gitignore)
