@@ -15,21 +15,39 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.1.4</version> <!-- ou a versão que estiver usando -->
-    <relativePath/> <!-- necessário para que ele não procure um projeto pai local -->
+    <version>3.1.4</version>
+    <relativePath/>
   </parent>
 
   <properties>
-    <java.version>17</java.version> <!-- ou a versão do seu JDK -->
+    <java.version>17</java.version>
   </properties>
 
   <dependencies>
+    <!-- Spring Boot Web -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
-    <!-- Outras dependências -->
+
+    <!-- Spring Cloud Config Client -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-config</artifactId>
+    </dependency>
   </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>2022.0.4</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <build>
     <plugins>
