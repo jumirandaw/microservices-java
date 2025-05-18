@@ -28,7 +28,7 @@ public class OpenProductController {
     public void initData() {
         if (repository.count() == 0) {
             Product p = new Product();
-            p.setName("Camiseta Preta");
+            p.setDescription("Camiseta Preta");
             p.setPrice(49.99);
             repository.save(p);
         }
