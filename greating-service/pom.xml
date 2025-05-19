@@ -10,7 +10,7 @@
   <packaging>jar</packaging>
 
   <name>greating-service</name>
-  <description>Greeting Service Spring Boot Project</description>
+  <description>Greating Service Spring Boot Project</description>
 
   <parent>
     <groupId>org.springframework.boot</groupId>

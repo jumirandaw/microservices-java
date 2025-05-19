@@ -6,12 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import br.edu.atitus.currency_service.entities.CurrencyEntity;
-import java.util.List;
-
 
 @Repository
-public interface CurrencyRepository extends JpaRepository<CurrencyEntity, Long> {
+public interface CurrencyRepository extends JpaRepository<CurrencyEntity, Long>{
 	
 	Optional<CurrencyEntity> findBySourceAndTarget(String source, String target);
-	
+
 }
