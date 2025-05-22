@@ -1,51 +1,53 @@
 package br.edu.atitus.product_service.controller;
 
-import br.edu.atitus.product_service.entities.Product;
-import br.edu.atitus.product_service.repositories.ProductRepository;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
+import br.edu.atitus.product_service.clients.CurrencyClient;
+import br.edu.atitus.product_service.clients.CurrencyResponse;
+import br.edu.atitus.product_service.entities.ProductEntity;
+import br.edu.atitus.product_service.repositories.ProductRepository;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("products")
 public class OpenProductController {
+	
+	private final ProductRepository repository;
+	private final CurrencyClient currencyClient;
 
-    private final ProductRepository repository;
+	public OpenProductController(ProductRepository repository, CurrencyClient currencyClient) {
+		super();
+		this.repository = repository;
+		this.currencyClient = currencyClient;
+	}
+	
+	@Value("${server.port}")
+	private int serverPort;
+	
+	@GetMapping("/{idProduct}/{targetCurrency}")
+	public ResponseEntity<ProductEntity> getProduct(
+			@PathVariable Long idProduct,
+			@PathVariable String targetCurrency
+ 			) throws Exception {
+		
+		ProductEntity product = repository.findById(idProduct)
+				.orElseThrow(() -> new Exception("Product not found"));
+		
+		product.setEnviroment("Product-service running on Port: " + serverPort);
+		
+		if (product.getCurrency().equals(targetCurrency)) {
+		    product.setConvertedPrice(product.getPrice());
+		    product.setEnviroment("Product-service running on Port: " + serverPort);
+		} else {
+		    CurrencyResponse currency = currencyClient.getCurrency(product.getPrice(),product.getCurrency(),targetCurrency);
+		    product.setConvertedPrice(currency.getConvertedValue());
+		    product.setEnviroment(product.getEnviroment() + " - " + currency.getEnviroment());
+		}
+		return ResponseEntity.ok(product);
+	}
 
-    @Value("${server.port}")
-    private String port;
-
-    public OpenProductController(ProductRepository repository) {
-        this.repository = repository;
-    }
-
-    // Adiciona produto de teste se o banco estiver vazio
-    @PostConstruct
-    public void initData() {
-        if (repository.count() == 0) {
-            Product p = new Product();
-            p.setDescription("Camiseta Preta");
-            p.setPrice(49.99);
-            repository.save(p);
-        }
-    }
-
-    @GetMapping("/{id}/{currency}")
-    public Product findProduct(@PathVariable Long id, @PathVariable String currency) {
-        Optional<Product> product = repository.findById(id);
-
-        if (product.isPresent()) {
-            Product p = product.get();
-            p.setEnvironment("Product-Service PORT: " + port);
-            p.setConvertedPrice(p.getPrice()); // Simulação de conversão
-            return p;
-        }
-
-        // Retorna 404 se não encontrar
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found with id: " + id);
-    }
 }
