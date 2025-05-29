@@ -10,7 +10,7 @@ public class CurrencyBCFallback implements CurrencyBCClient{
 	@Override
 	public CurrencyBCResponse getCurrency(String moeda) {
 		CurrencyBCResponse fallback = new CurrencyBCResponse();
-		fallback.setValue(Collections.emptyList());
+		fallback.setEnviroment("Fallback ativado: currency-service indisponível.");
 		return fallback;
 	}
 

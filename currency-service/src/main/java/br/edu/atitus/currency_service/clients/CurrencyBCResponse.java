@@ -27,4 +27,10 @@ public class CurrencyBCResponse {
 			this.cotacaoVenda = cotacaoVenda;
 		}		
 	}
+
+
+	public void setEnviroment(String string) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -1,5 +1,7 @@
 package br.edu.atitus.product_service.clients;
 
+import java.util.List;
+
 public class CurrencyResponse {
 	
 	private Long id;
@@ -60,5 +62,10 @@ public class CurrencyResponse {
 
 	public void setEnviroment(String enviroment) {
 		this.enviroment = enviroment;
+	}
+
+	public void setValue(List<Object> emptyList) {
+		// TODO Auto-generated method stub
+		
 	}
 }

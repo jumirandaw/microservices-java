@@ -80,6 +80,10 @@ public class ProductEntity {
 	public void setConvertedPrice(double convertedPrice) {
 		this.convertedPrice = convertedPrice;
 	}
+	public String setEnviroment() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 
